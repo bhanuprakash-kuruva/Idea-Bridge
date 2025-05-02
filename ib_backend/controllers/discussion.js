@@ -218,6 +218,54 @@ const deleteDiscussion = async (req, res) => {
   }
 };
 
+const likeDiscussion = async (req, res) => {
+  const { userId, discussionId } = req.params;
+  try {
+    const discussion = await Discussion.findById(discussionId).populate('likes');
+    if (!discussion) return res.status(404).json({ message: "Discussion not found..." });
+
+    const user = await User.findOne({ username: userId });
+    if (!user) return res.status(404).json({ message: "User not found..." });
+
+    const alreadyLiked = discussion.likes.some(likeUser => likeUser._id.equals(user._id));
+    if (!alreadyLiked) {
+      discussion.likes.push(user._id); // ✅ only push ObjectId
+      await discussion.save();
+    }
+
+    const discussions = await Discussion.find({})
+      .populate('createdBy', 'username email')
+      .populate('project', 'title description')
+      .populate({
+        path: 'comments',
+        model: 'Comment',
+        populate: [
+          {
+            path: 'user',
+            model: 'User',
+            select: 'username email',
+          },
+          {
+            path: 'replies',
+            model: 'Comment',
+            populate: {
+              path: 'user',
+              model: 'User',
+              select: 'username email',
+            },
+          },
+        ],
+      })
+      .populate('likes', 'username email')
+      .setOptions({ strictPopulate: false });
+
+    res.status(200).json(discussions);
+  } catch (err) {
+    console.error("❌ Error in likeDiscussion:", err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 
 module.exports ={
     createDiscussion,
@@ -228,5 +276,6 @@ module.exports ={
     getDiscussionById,
     getAllDiscussions,
     updateDiscussion,
-    deleteDiscussion
+    deleteDiscussion,
+    likeDiscussion
 }

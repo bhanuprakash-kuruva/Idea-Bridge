@@ -41,12 +41,11 @@ const Sidebar = () => {
 
   const navLinks = [
     { text: "Home", path: "/", icon: <HomeIcon /> },
-    { text: "Ideas", path: "/ideas", icon: <LightbulbIcon /> },
-    { text: "Collaborate", path: "/collaborate", icon: <GroupsIcon /> },
-    { text: "Discussions", path: "/discussions/all", icon: <ForumIcon /> },
-    { text: "Contact", path: "/contact", icon: <ContactMailIcon /> },
+    { text: "Ideas", path:user? "/ideas" : '/auth/signin', icon: <LightbulbIcon /> },
+    { text: "Discussions", path:user ? "/discussions/all" : '/auth/signin', icon: <ForumIcon /> },
+    { text: "Contact", path: user ? "/contact" : "/auth/signin", icon: <ContactMailIcon /> },
+    { text: "Reviews", path: user ? "/review/undefined" : "/auth/signin", icon: <ContactMailIcon /> },
   ];
-
   if (user?.role === "Admin") {
     navLinks.push({ text: "Manage Users", path: "/admin/users", icon: <AdminPanelSettingsIcon /> });
   }

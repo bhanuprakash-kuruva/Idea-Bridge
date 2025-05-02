@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import {
   Box,
   Typography,
@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
+import axios from 'axios'
 
 // Sample testimonials (randomized)
 const testimonials = [
@@ -21,8 +22,23 @@ const testimonials = [
 
 const Home = () => {
   const navigate = useNavigate();
+  const [projects,setProjects] = useState([]);
   const randomTestimonial =
     testimonials[Math.floor(Math.random() * testimonials.length)];
+
+    const fetchProjects = async () => {
+      try {
+        const { data } = await axios.get("http://localhost:8015/api/project");
+        setProjects(data);
+        console.log(data)
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchProjects();
+    }, []);
 
   return (
     <Layout>
@@ -139,31 +155,34 @@ const Home = () => {
           Featured Projects 🌟
         </Typography>
         <Grid container spacing={3} justifyContent="center">
-          {[1, 2, 3].map((project) => (
-            <Grid item xs={12} sm={6} md={4} key={project}>
-              <Card
-                sx={{
-                  transition: "0.3s",
-                  "&:hover": { transform: "scale(1.05)" },
-                }}
-              >
-                <CardContent>
-                  <Typography variant="h5">🚀 Project {project}</Typography>
-                  <Typography color="textSecondary">
-                    Innovative solutions for the future.
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    sx={{ marginTop: 2 }}
-                    onClick={() => navigate(`/project/${project}`)}
-                  >
-                    View Details
-                  </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
+        {projects.map((project) => (
+  <Grid item xs={12} sm={6} md={4} key={project._id}>
+    <Card
+      sx={{
+        transition: "0.3s",
+        "&:hover": { transform: "scale(1.05)" },
+      }}
+    >
+      <CardContent>
+        <Typography variant="h5">🚀 {project.title}</Typography>
+        <Typography color="textSecondary" sx={{ minHeight: 60 }}>
+          {project.description.length > 100
+            ? `${project.description.slice(0, 100)}...`
+            : project.description}
+        </Typography>
+        <Button
+          variant="contained"
+          size="small"
+          sx={{ marginTop: 2 }}
+          onClick={() => navigate(`/project/${project._id}`)}
+        >
+          View Details
+        </Button>
+      </CardContent>
+    </Card>
+  </Grid>
+))}
+
         </Grid>
 
         {/* Testimonials */}

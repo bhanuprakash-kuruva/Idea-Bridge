@@ -5,7 +5,8 @@ const {
   deleteComment,getDiscussionsOfSingleProject,getDiscussionById,
   getAllDiscussions,
   updateDiscussion,
-  deleteDiscussion
+  deleteDiscussion,
+  likeDiscussion
 } = require('../controllers/discussion.js');
 const express = require('express')
 
@@ -33,5 +34,8 @@ router.put("/:id", updateDiscussion);
 
 // DELETE a discussion
 router.delete("/:id", deleteDiscussion);
+
+//LIKE a discussion
+router.post('/like/:userId/:discussionId',likeDiscussion)
 
 module.exports = router;

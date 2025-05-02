@@ -64,6 +64,31 @@ const AllDiscussionsPage = () => {
         setEditDialogOpen(true);
     };
 
+    const handleLike = async (discussionId) => {
+        console.log(discussionId)
+        try {
+            const { data } = await axios.post(`http://localhost:8015/api/discussion/like/${user.username}/${discussionId}`);
+           
+            // Optional: Update the discussion's like count in local state (if you're storing discussions in state)
+            setDiscussions(prevDiscussions =>
+                prevDiscussions.map(discussion =>
+                    discussion._id === discussionId
+                        ? { ...discussion, likes: data.updatedLikes } // assuming your API returns the updated likes
+                        : discussion
+                )
+            );
+    
+            // Optional: Show feedback to the user
+            console.log("Liked discussion successfully:", data.message || data);
+            
+        } catch (error) {
+            console.error("Error liking discussion:", error);
+        } finally {
+            // Optional: any cleanup or loading state updates
+            // setLoading(false);
+        }
+    };
+    
 
 
     const handleDelete = (discussionId) => {
@@ -184,8 +209,11 @@ const AllDiscussionsPage = () => {
                                 <Stack direction="row" spacing={3} mt={2} alignItems="center">
                                     <Typography variant="caption">💬 {discussion.comments.length} Comments</Typography>
                                     <Typography variant="caption">❤️ {discussion.likes.length} Likes</Typography>
-                                    <IconButton size="small">
+                                    <IconButton size="small" onClick={()=>handleLike(discussion._id)}>
+                                        
                                         <FavoriteIcon color="error" fontSize="small" />
+                                       
+                                        
                                     </IconButton>
                                     <Box flexGrow={1} />
                                     <Button
