@@ -37,7 +37,9 @@ const registerUser = async (req, res) => {
             github,
             linkedin
         } = req.body;
-
+        if(!fullName || !email || !username ||!password || !phone || !gender || !bio || !github || !linkedin  ){
+            res.status(500).json({ message: "Please enter all the fields" });
+        }
         // Check if user already exists
         const existingUser = await User.findOne({ $or: [{ email }, { username }] });
         if (existingUser) {
