@@ -13,7 +13,7 @@ const ProjectReviewsPage = ({projectId}) => {
     console.log(projectId)
     const fetchReviews = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:8015/api/reviews/project/${projectId}`);
+        const { data } = await axios.get(`https://idea-bridge-backend.onrender.com/api/reviews/project/${projectId}`);
         setReviews(data);
       } catch (err) {
         console.error("Failed to fetch reviews", err);

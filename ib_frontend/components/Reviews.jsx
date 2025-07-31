@@ -74,7 +74,7 @@ const ReviewPage = () => {
     };
 
     try {
-      const res = await fetch('http://localhost:8015/api/reviews', {
+      const res = await fetch('https://idea-bridge-backend.onrender.com/api/reviews', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -302,7 +302,7 @@ export default ReviewPage;
 //     };
 
 //     try {
-//       const res = await fetch('http://localhost:8015/api/reviews', {
+//       const res = await fetch('https://idea-bridge-backend.onrender.com/api/reviews', {
 //         method: 'POST',
 //         headers: { 'Content-Type': 'application/json' },
 //         body: JSON.stringify(reviewData),

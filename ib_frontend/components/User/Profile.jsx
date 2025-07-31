@@ -95,12 +95,12 @@ const Profile = () => {
 
     try {
       setUploading(true);
-      const res = await axios.post("http://localhost:8015/api/document/upload", formData, {
+      const res = await axios.post("https://idea-bridge-backend.onrender.com/api/document/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      const updatedProfile = await axios.get(`http://localhost:8015/api/user/profile/${user.username}`);
+      const updatedProfile = await axios.get(`https://idea-bridge-backend.onrender.com/api/user/profile/${user.username}`);
       setProfile(updatedProfile.data);
 
       console.log("Uploaded doc:", res.data);
@@ -125,7 +125,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:8015/api/user/profile/${user.username}`);
+        const response = await axios.get(`https://idea-bridge-backend.onrender.com/api/user/profile/${user.username}`);
         setProfile(response.data);
 
       } catch (error) {
@@ -171,7 +171,7 @@ const Profile = () => {
   };
   const handleUpdateProject = async () => {
     try {
-      const response = await fetch(`http://localhost:8015/api/project/update/${editProjectData._id}`, {
+      const response = await fetch(`https://idea-bridge-backend.onrender.com/api/project/update/${editProjectData._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -203,7 +203,7 @@ const Profile = () => {
 
   const confirmDelete = async () => {
     try {
-      const response = await fetch(`http://localhost:8015/api/project/delete/${selectedProjectId}`, {
+      const response = await fetch(`https://idea-bridge-backend.onrender.com/api/project/delete/${selectedProjectId}`, {
         method: 'DELETE',
       });
 
@@ -795,7 +795,7 @@ const Profile = () => {
             </IconButton>
             <Box
               component="img"
-              src={`http://localhost:8015/uploads/${profile.profilePicture}` || "/default-profile.png"}
+              src={`https://idea-bridge-backend.onrender.com/uploads/${profile.profilePicture}` || "/default-profile.png"}
               alt="Full Profile"
               sx={{
                 maxWidth: '80vw',

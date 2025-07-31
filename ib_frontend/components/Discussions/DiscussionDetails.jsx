@@ -45,7 +45,7 @@
 
 //         try {
 //             await axios.post(
-//                 `http://localhost:8015/api/discussion/comments/${commentId}/reply`,
+//                 `https://idea-bridge-backend.onrender.com/api/discussion/comments/${commentId}/reply`,
 //                 { content, createdBy: user.id },
 //                 { headers: authHeader }
 //             );
@@ -68,7 +68,7 @@
 //         setLoading(true);
 //         try {
 //             const { data } = await axios.get(
-//                 `http://localhost:8015/api/discussion/${id}`,
+//                 `https://idea-bridge-backend.onrender.com/api/discussion/${id}`,
 //                 { headers: authHeader }
 //             );
 //             setDiscussion(data);
@@ -85,7 +85,7 @@
 //         setPosting(true);
 //         try {
 //             await axios.post(
-//                 `http://localhost:8015/api/discussion/${id}/comments`,
+//                 `https://idea-bridge-backend.onrender.com/api/discussion/${id}/comments`,
 //                 { content: newComment, createdBy: user.id },
 //                 { headers: authHeader }
 //             );
@@ -356,7 +356,7 @@ const DiscussionDetailPage = () => {
         setLoading(true);
         try {
             const { data } = await axios.get(
-                `http://localhost:8015/api/discussion/${id}`,
+                `https://idea-bridge-backend.onrender.com/api/discussion/${id}`,
                 { headers: authHeader }
             );
             setDiscussion(data);
@@ -373,7 +373,7 @@ const DiscussionDetailPage = () => {
         setPosting(true);
         try {
             await axios.post(
-                `http://localhost:8015/api/discussion/${id}/comments`,
+                `https://idea-bridge-backend.onrender.com/api/discussion/${id}/comments`,
                 { content: newComment, createdBy: user.id },
                 { headers: authHeader }
             );
@@ -392,7 +392,7 @@ const DiscussionDetailPage = () => {
 
         try {
             await axios.post(
-                `http://localhost:8015/api/discussion/comments/${commentId}/reply`,
+                `https://idea-bridge-backend.onrender.com/api/discussion/comments/${commentId}/reply`,
                 { content, createdBy: user.id , discussion:id},
                 { headers: authHeader }
             );

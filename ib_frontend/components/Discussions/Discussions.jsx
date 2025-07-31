@@ -32,7 +32,7 @@
 //     const fetchDiscussions = async () => {
 //       try {
 //         const { data } = await axios.get(
-//           `http://localhost:8015/api/discussion/oneproject/${projectId}`,
+//           `https://idea-bridge-backend.onrender.com/api/discussion/oneproject/${projectId}`,
 //           { headers: authHeader }
 //         );
 //         setDiscussions(data);
@@ -46,7 +46,7 @@
   
 //       try {
 //         await axios.post(
-//           'http://localhost:8015/api/discussion/create',
+//           'https://idea-bridge-backend.onrender.com/api/discussion/create',
 //           {
 //             title: newTitle,
 //             content: newContent,
@@ -213,7 +213,7 @@ const DiscussionPage = ({ projectId,created }) => {
   const fetchDiscussions = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8015/api/discussion/oneproject/${projectId}`,
+        `https://idea-bridge-backend.onrender.com/api/discussion/oneproject/${projectId}`,
         { headers: authHeader }
       );
       setDiscussions(data);
@@ -227,7 +227,7 @@ const DiscussionPage = ({ projectId,created }) => {
 
     try {
       await axios.post(
-        'http://localhost:8015/api/discussion/create',
+        'https://idea-bridge-backend.onrender.com/api/discussion/create',
         {
           title: newTitle,
           content: newContent,

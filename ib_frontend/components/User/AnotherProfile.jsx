@@ -22,7 +22,7 @@ const AnotherProfile = () => {
         try {
             console.log(username)
             const response = await axios.put(
-                `http://localhost:8015/api/notification/follow/${username}`,
+                `https://idea-bridge-backend.onrender.com/api/notification/follow/${username}`,
                 {
                     currentUserId: user.id
                 }
@@ -41,7 +41,7 @@ const AnotherProfile = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get(`http://localhost:8015/api/user/profile/${username}`);
+                const response = await axios.get(`https://idea-bridge-backend.onrender.com/api/user/profile/${username}`);
                 setProfile(response.data);
 
             } catch (error) {

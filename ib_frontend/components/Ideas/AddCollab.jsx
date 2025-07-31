@@ -35,7 +35,7 @@ const CollaboratorsDialog = ({ projectId }) => {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.post(`http://localhost:8015/api/project/addCollaborator/${projectId}`, {
+      const res = await axios.post(`https://idea-bridge-backend.onrender.com/api/project/addCollaborator/${projectId}`, {
         collaborators,
       });
       setSnackbar({ open: true, message: 'Collaborators saved!', severity: 'success' });

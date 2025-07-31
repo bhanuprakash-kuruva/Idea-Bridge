@@ -7,7 +7,7 @@ import MessageInput from './MessageInput';
 import { AuthContext } from '../../contextAPI/Context';
 import { useParams } from 'react-router-dom';
 
-const socket = io('http://localhost:8015');
+const socket = io('https://idea-bridge-backend.onrender.com');
 
 function Chat() {
   const [messages, setMessages] = useState([]);
@@ -22,7 +22,7 @@ function Chat() {
             try {
               console.log(user,receiver)
               const response = await axios.get(
-                `http://localhost:8015/api/message/history/${user?.username}/${receiver}`
+                `https://idea-bridge-backend.onrender.com/api/message/history/${user?.username}/${receiver}`
               );
               setMessages(response.data); // Set the fetched messages
             } catch (error) {

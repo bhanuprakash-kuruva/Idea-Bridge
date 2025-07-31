@@ -83,10 +83,10 @@ const Projects = () => {
       const isLiked = project.likes?.includes(user.username);
       if (isLiked) {
         project.likes = project.likes.filter((u) => u !== user.username);
-        await axios.post(`http://localhost:8015/api/project/${project._id}/unlike`, { username: user.username });
+        await axios.post(`https://idea-bridge-backend.onrender.com/api/project/${project._id}/unlike`, { username: user.username });
       } else {
         project.likes.push(user.username);
-        await axios.post(`http://localhost:8015/api/project/${project._id}/like`, { username: user.username });
+        await axios.post(`https://idea-bridge-backend.onrender.com/api/project/${project._id}/like`, { username: user.username });
       }
     } catch (error) {
       console.error("Error toggling like:", error);
@@ -99,7 +99,7 @@ const Projects = () => {
 
   const fetchProjects = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8015/api/project");
+      const { data } = await axios.get("https://idea-bridge-backend.onrender.com/api/project");
       setProjects(data);
       console.log(data)
     } catch (error) {
@@ -140,7 +140,7 @@ const Projects = () => {
         data.append("image", imageFile);
       }
 
-      await axios.post("http://localhost:8015/api/project/addProject", data, {
+      await axios.post("https://idea-bridge-backend.onrender.com/api/project/addProject", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

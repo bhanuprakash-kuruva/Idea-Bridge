@@ -38,7 +38,7 @@ const SingleProject = () => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:8015/api/project/${id}`);
+        const { data } = await axios.get(`https://idea-bridge-backend.onrender.com/api/project/${id}`);
         setProject(data);
         setLoading(false);
       } catch (error) {
@@ -274,7 +274,7 @@ const SingleProject = () => {
                             <Avatar
                               src={
                                 doc.uploadedBy.profilePicture
-                                  ? `http://localhost:8015/uploads/${doc.uploadedBy.profilePicture}`
+                                  ? `https://idea-bridge-backend.onrender.com/uploads/${doc.uploadedBy.profilePicture}`
                                   : "/default-avatar.png"
                               }
                               alt={doc.uploadedBy.fullName}
@@ -299,7 +299,7 @@ const SingleProject = () => {
                             href={
                               doc.fileUrl.startsWith("http")
                                 ? doc.fileUrl
-                                : `http://localhost:8015${doc.fileUrl}`
+                                : `https://idea-bridge-backend.onrender.com${doc.fileUrl}`
                             }
                             target="_blank"
                             rel="noopener noreferrer"

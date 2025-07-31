@@ -28,7 +28,7 @@ const Home = () => {
 
     const fetchProjects = async () => {
       try {
-        const { data } = await axios.get("http://localhost:8015/api/project");
+        const { data } = await axios.get("https://idea-bridge-backend.onrender.com/api/project");
         setProjects(data);
         console.log(data)
       } catch (error) {

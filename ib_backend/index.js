@@ -88,8 +88,8 @@ app.use('/api/message',messageRoutes)
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173', // Frontend URL
-    methods: ['GET', 'POST'],
+    origin: 'https://idea-bridge-frontend-306xvhbdq-kuruva-bhanu-praashs-projects.vercel.app/', // Frontend URL
+    methods: ['GET', 'POST','PUT','DELETE'],
   },
 });
 

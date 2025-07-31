@@ -157,7 +157,7 @@ const Message = ({ message, isSender }) => {
       {isSender && (
         <AvatarWrapper isSender={isSender}>
         <Avatar
-          src={sender?.profilePicture ? `http://localhost:8015/uploads/${sender.profilePicture}` : undefined}
+          src={sender?.profilePicture ? `https://idea-bridge-backend.onrender.com/uploads/${sender.profilePicture}` : undefined}
         >
           {avatarLetter}
         </Avatar>
