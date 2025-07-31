@@ -36,7 +36,7 @@ const ProjectModal = ({ open, handleClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/projects", formData); // Your backend endpoint
+      await axios.post(`${import.meta.env.VITE_BASE_URL}/api/projects`, formData); // Your backend endpoint
       alert("Project created!");
       handleClose();
     } catch (error) {

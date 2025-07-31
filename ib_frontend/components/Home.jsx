@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -6,39 +6,107 @@ import {
   Grid,
   Card,
   CardContent,
-  Container,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import Layout from "../components/Layout/Layout";
-import axios from 'axios'
 
-// Sample testimonials (randomized)
-const testimonials = [
+// Constants
+const TESTIMONIALS = [
   { name: "Alice", feedback: "Idea Bridge helped me bring my startup vision to life!" },
   { name: "Bob", feedback: "The collaboration tools are amazing and easy to use." },
   { name: "Charlie", feedback: "A great place to connect with like-minded innovators!" },
   { name: "Diana", feedback: "I found my co-founder here. Highly recommend!" },
 ];
 
+const HOW_IT_WORKS = [
+  {
+    title: "🚀 Submit Your Idea",
+    desc: "Share your innovative idea and get valuable feedback.",
+  },
+  {
+    title: "🤝 Collaborate with Others",
+    desc: "Form teams and work together on exciting projects.",
+  },
+  {
+    title: "📊 Track Progress",
+    desc: "Stay updated with real-time project tracking.",
+  },
+];
+
+const KEY_FEATURES = [
+  { title: "📄 Structured Submission", desc: "Organized idea submissions with easy tracking." },
+  { title: "🔗 Networking", desc: "Connect with like-minded innovators." },
+  { title: "📈 Progress Updates", desc: "Keep your team informed in real-time." },
+];
+
 const Home = () => {
   const navigate = useNavigate();
-  const [projects,setProjects] = useState([]);
-  const randomTestimonial =
-    testimonials[Math.floor(Math.random() * testimonials.length)];
+  const [projects, setProjects] = useState([]);
+  const [randomTestimonial] = useState(
+    TESTIMONIALS[Math.floor(Math.random() * TESTIMONIALS.length)]
+  );
 
-    const fetchProjects = async () => {
-      try {
-        const { data } = await axios.get("https://idea-bridge-backend.onrender.com/api/project");
-        setProjects(data);
-        console.log(data)
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      }
-    };
-  
-    useEffect(() => {
-      fetchProjects();
-    }, []);
+  const fetchProjects = async () => {
+    try {
+      const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/project`);
+      setProjects(data);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const renderFeatureCard = ({ title, desc }) => (
+    <Card
+      sx={{
+        textAlign: "center",
+        padding: 2,
+        transition: "0.3s",
+        "&:hover": { transform: "scale(1.05)" },
+        height: "100%",
+      }}
+    >
+      <CardContent>
+        <Typography variant="h6" fontWeight="bold">
+          {title}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          {desc}
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+
+  const renderProjectCard = (project) => (
+    <Card
+      sx={{
+        transition: "0.3s",
+        "&:hover": { transform: "scale(1.05)" },
+        height: "100%",
+      }}
+    >
+      <CardContent>
+        <Typography variant="h5">🚀 {project.title}</Typography>
+        <Typography color="textSecondary" sx={{ minHeight: 60 }}>
+          {project.description.length > 100
+            ? `${project.description.slice(0, 100)}...`
+            : project.description}
+        </Typography>
+        <Button
+          variant="contained"
+          size="small"
+          sx={{ marginTop: 2 }}
+          onClick={() => navigate(`/project/${project._id}`)}
+        >
+          View Details
+        </Button>
+      </CardContent>
+    </Card>
+  );
 
   return (
     <Layout>
@@ -82,38 +150,9 @@ const Home = () => {
           How It Works 🛠️
         </Typography>
         <Grid container spacing={3} justifyContent="center">
-          {[
-            {
-              title: "🚀 Submit Your Idea",
-              desc: "Share your innovative idea and get valuable feedback.",
-            },
-            {
-              title: "🤝 Collaborate with Others",
-              desc: "Form teams and work together on exciting projects.",
-            },
-            {
-              title: "📊 Track Progress",
-              desc: "Stay updated with real-time project tracking.",
-            },
-          ].map((step, index) => (
+          {HOW_IT_WORKS.map((step, index) => (
             <Grid item xs={12} sm={4} key={index}>
-              <Card
-                sx={{
-                  textAlign: "center",
-                  padding: 2,
-                  transition: "0.3s",
-                  "&:hover": { transform: "scale(1.05)" },
-                }}
-              >
-                <CardContent>
-                  <Typography variant="h6" fontWeight="bold">
-                    {step.title}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {step.desc}
-                  </Typography>
-                </CardContent>
-              </Card>
+              {renderFeatureCard(step)}
             </Grid>
           ))}
         </Grid>
@@ -123,29 +162,9 @@ const Home = () => {
           Key Features ⚡
         </Typography>
         <Grid container spacing={3} justifyContent="center">
-          {[
-            { title: "📄 Structured Submission", desc: "Organized idea submissions with easy tracking." },
-            { title: "🔗 Networking", desc: "Connect with like-minded innovators." },
-            { title: "📈 Progress Updates", desc: "Keep your team informed in real-time." },
-          ].map((feature, index) => (
+          {KEY_FEATURES.map((feature, index) => (
             <Grid item xs={12} sm={4} key={index}>
-              <Card
-                sx={{
-                  textAlign: "center",
-                  padding: 2,
-                  transition: "0.3s",
-                  "&:hover": { transform: "scale(1.05)" },
-                }}
-              >
-                <CardContent>
-                  <Typography variant="h6" fontWeight="bold">
-                    {feature.title}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {feature.desc}
-                  </Typography>
-                </CardContent>
-              </Card>
+              {renderFeatureCard(feature)}
             </Grid>
           ))}
         </Grid>
@@ -155,34 +174,11 @@ const Home = () => {
           Featured Projects 🌟
         </Typography>
         <Grid container spacing={3} justifyContent="center">
-        {projects.map((project) => (
-  <Grid item xs={12} sm={6} md={4} key={project._id}>
-    <Card
-      sx={{
-        transition: "0.3s",
-        "&:hover": { transform: "scale(1.05)" },
-      }}
-    >
-      <CardContent>
-        <Typography variant="h5">🚀 {project.title}</Typography>
-        <Typography color="textSecondary" sx={{ minHeight: 60 }}>
-          {project.description.length > 100
-            ? `${project.description.slice(0, 100)}...`
-            : project.description}
-        </Typography>
-        <Button
-          variant="contained"
-          size="small"
-          sx={{ marginTop: 2 }}
-          onClick={() => navigate(`/project/${project._id}`)}
-        >
-          View Details
-        </Button>
-      </CardContent>
-    </Card>
-  </Grid>
-))}
-
+          {projects.map((project) => (
+            <Grid item xs={12} sm={6} md={4} key={project._id}>
+              {renderProjectCard(project)}
+            </Grid>
+          ))}
         </Grid>
 
         {/* Testimonials */}

@@ -74,7 +74,7 @@ const ReviewCard = ({ review }) => {
               anonymous
                 ? ""
                 : reviewer?.profilePicture
-                ? `https://idea-bridge-backend.onrender.com/uploads/${reviewer?.profilePicture}`
+                ? `import.meta.env.VITE_BASE_URL/uploads/${reviewer?.profilePicture}`
                 : undefined
             }
             sx={{

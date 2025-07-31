@@ -67,7 +67,7 @@ const AllDiscussionsPage = () => {
     const handleLike = async (discussionId) => {
         console.log(discussionId)
         try {
-            const { data } = await axios.post(`https://idea-bridge-backend.onrender.com/api/discussion/like/${user.username}/${discussionId}`);
+            const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/discussion/like/${user.username}/${discussionId}`);
            
             // Optional: Update the discussion's like count in local state (if you're storing discussions in state)
             setDiscussions(prevDiscussions =>
@@ -101,7 +101,7 @@ const AllDiscussionsPage = () => {
     useEffect(() => {
         const fetchDiscussions = async () => {
             try {
-                const { data } = await axios.get("https://idea-bridge-backend.onrender.com/api/discussion/");
+                const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/discussion/`);
                 setDiscussions(data);
                 setFilteredDiscussions(data);
             } catch (error) {
@@ -253,13 +253,13 @@ const AllDiscussionsPage = () => {
                     <Button onClick={() => setEditDialogOpen(false)}>Cancel</Button>
                     <Button variant="contained" onClick={async () => {
                         try {
-                            await axios.put(`https://idea-bridge-backend.onrender.com/api/discussion/${editData.id}`, {
+                            await axios.put(`import.meta.env.VITE_BASE_URL/api/discussion/${editData.id}`, {
                                 title: editData.title,
                                 content: editData.content,
                             });
                             setEditDialogOpen(false);
                             // Refresh the discussions
-                            const { data } = await axios.get("https://idea-bridge-backend.onrender.com/api/discussion/");
+                            const { data } = await axios.get("import.meta.env.VITE_BASE_URL/api/discussion/");
                             setDiscussions(data);
                             setFilteredDiscussions(data);
                         } catch (err) {
@@ -282,7 +282,7 @@ const AllDiscussionsPage = () => {
                         color="error"
                         onClick={async () => {
                             try {
-                                await axios.delete(`https://idea-bridge-backend.onrender.com/api/discussion/${discussionToDelete}`);
+                                await axios.delete(`import.meta.env.VITE_BASE_URL/api/discussion/${discussionToDelete}`);
                                 setFilteredDiscussions(prev => prev.filter(d => d._id !== discussionToDelete));
                                 setDiscussions(prev => prev.filter(d => d._id !== discussionToDelete));
                             } catch (error) {

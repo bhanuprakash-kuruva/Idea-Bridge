@@ -74,7 +74,7 @@ const ReviewPage = () => {
     };
 
     try {
-      const res = await fetch('https://idea-bridge-backend.onrender.com/api/reviews', {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/api/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -302,7 +302,7 @@ export default ReviewPage;
 //     };
 
 //     try {
-//       const res = await fetch('https://idea-bridge-backend.onrender.com/api/reviews', {
+//       const res = await fetch('import.meta.env.VITE_BASE_URL/api/reviews', {
 //         method: 'POST',
 //         headers: { 'Content-Type': 'application/json' },
 //         body: JSON.stringify(reviewData),

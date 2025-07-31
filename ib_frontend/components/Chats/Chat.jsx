@@ -1,66 +1,100 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Box } from '@mui/material';
 import { io } from 'socket.io-client';
-import axios from 'axios'; // Import axios for API requests
+import axios from 'axios';
 import Message from './Message';
 import MessageInput from './MessageInput';
 import { AuthContext } from '../../contextAPI/Context';
 import { useParams } from 'react-router-dom';
 
-const socket = io('https://idea-bridge-backend.onrender.com');
+// Socket.IO client connection with fallback to polling
+const socket = io(import.meta.env.VITE_SOCKET_URL, {
+  transports: ['polling'], // Fallback if websocket fails (Render free plan issue)
+  withCredentials: true,
+});
 
 function Chat() {
   const [messages, setMessages] = useState([]);
-  const { user } = useContext(AuthContext); // Get current user from context
+  const { user } = useContext(AuthContext);
   const { receiver } = useParams();
-  
-  // Fetch chat history from the backend when component mounts
+
+  // Fetch chat history
   useEffect(() => {
-    // Fetch messages between current user and receiver
-    if(user){
-        const fetchChatHistory = async () => {
-            try {
-              console.log(user,receiver)
-              const response = await axios.get(
-                `https://idea-bridge-backend.onrender.com/api/message/history/${user?.username}/${receiver}`
-              );
-              setMessages(response.data); // Set the fetched messages
-            } catch (error) {
-              console.error('Error fetching chat history:', error);
-            }
-          };
-          fetchChatHistory();
-    }
+    if (!user || !receiver) return;
 
-    
+    const fetchChatHistory = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/message/history/${user.username}/${receiver}`
+        );
+        console.log("Chat history:", res.data);
+        setMessages(Array.isArray(res.data) ? res.data : []);
+      } catch (err) {
+        console.error("Failed to fetch messages:", err);
+        setMessages([]);
+      }
+    };
 
+    fetchChatHistory();
+
+    // Listen for new messages
     socket.on('chat message', (msg) => {
       setMessages((prev) => [...prev, msg]);
     });
 
-    return () => socket.off('chat message');
-  }, [user, receiver]); // Dependency array ensures it runs only when user or receiver changes
-  if(messages){
-    console.log(messages)
-  }
+    // Clean up on unmount
+    return () => {
+      socket.off('chat message');
+    };
+  }, [user, receiver]);
+
+  // Send a message
   const sendMessage = (text, file = null) => {
+    if (!text && !file) return;
+
     const msg = {
       text,
-      sender: user.username, // Use user._id from context
-      receiver, // Replace with receiver
+      sender: user.username,
+      receiver,
       type: file ? 'file' : 'text',
-      attachments: file ? [{ url: URL.createObjectURL(file), fileName: file.name }] : [],
+      attachments: file
+        ? [{ url: URL.createObjectURL(file), fileName: file.name }]
+        : [],
     };
+
     socket.emit('chat message', msg);
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '500px' }}>
-      <Box sx={{ flex: 1, overflowY: 'auto', mb: 1, p: 1, backgroundColor: '#e5ddd5', borderRadius: 2 }}>
-        {messages.map((msg, i) => (
-          <Message key={i} message={msg} isSender={msg.sender === user.id} />
-        ))}
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '500px',
+        border: '1px solid #ccc',
+        borderRadius: 2,
+        overflow: 'hidden',
+      }}
+    >
+      {/* Messages area */}
+      <Box
+        sx={{
+          flex: 1,
+          overflowY: 'auto',
+          p: 1,
+          backgroundColor: '#f5f5f5',
+        }}
+      >
+        {Array.isArray(messages) && messages.length > 0 ? (
+          messages.map((msg, i) => (
+            <Message key={i} message={msg} isSender={msg.sender === user.username} />
+          ))
+        ) : (
+          <p style={{ textAlign: 'center', color: '#999' }}>No messages yet.</p>
+        )}
       </Box>
+
+      {/* Input area */}
       <MessageInput onSend={sendMessage} />
     </Box>
   );
