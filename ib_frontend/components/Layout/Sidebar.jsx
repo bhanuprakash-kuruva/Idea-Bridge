@@ -21,7 +21,7 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
-
+import RateReviewIcon from '@mui/icons-material/RateReview';
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contextAPI/Context";
 import ideaBridgeLogo from "../../src/assets/idea.jpeg";
@@ -44,7 +44,7 @@ const Sidebar = () => {
     { text: "Ideas", path:user? "/ideas" : '/auth/signin', icon: <LightbulbIcon /> },
     { text: "Discussions", path:user ? "/discussions/all" : '/auth/signin', icon: <ForumIcon /> },
     { text: "Contact", path: user ? "/contact" : "/auth/signin", icon: <ContactMailIcon /> },
-    { text: "Reviews", path: user ? "/review/undefined" : "/auth/signin", icon: <ContactMailIcon /> },
+    { text: "Reviews", path: user ? "/review/undefined" : "/auth/signin", icon: <RateReviewIcon /> },
   ];
   if (user?.role === "Admin") {
     navLinks.push({ text: "Manage Users", path: "/admin/users", icon: <AdminPanelSettingsIcon /> });

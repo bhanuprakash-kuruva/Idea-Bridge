@@ -64,7 +64,7 @@ const AnotherProfile = () => {
                 <Grid container spacing={3} alignItems="center">
                     <Grid  xs={12} sm={4} display="flex" justifyContent="center">
                         <Avatar
-                            src={`http://localhost:8015/uploads/${profile.profilePicture}` || "/default-profile.png"}
+                            src={profile.profilePicture || "/default-profile.png"}
                             sx={{ width: 140, height: 140 }}
                         />
                     </Grid>
@@ -197,7 +197,7 @@ const AnotherProfile = () => {
                                             <CardMedia
                                                 component="img"
                                                 height="140"
-                                                image={`http://localhost:8015${project.image}`}
+                                                image={project.image}
                                                 alt={project.title}
                                             />
                                         )}

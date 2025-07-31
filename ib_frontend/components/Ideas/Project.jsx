@@ -210,7 +210,7 @@ const Projects = () => {
                       component="img"
                       src={
                         project.image
-                          ? `http://localhost:8015${project.image}`
+                          ? project.image
                           : "/default-project.png"
                       }
                       alt={project.title}

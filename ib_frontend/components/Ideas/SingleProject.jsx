@@ -63,7 +63,7 @@ const SingleProject = () => {
         Project not found.
       </Typography>
     );
-
+    if(project) console.log(project)
   return (
     <Layout>
       <Container maxWidth="md" sx={{ mt: 4, mb: 6 }}>
@@ -82,7 +82,7 @@ const SingleProject = () => {
             sx={{
               position: "relative",
               height: 260,
-              backgroundImage: `url(${project.image ? `http://localhost:8015${project.image}` : "/default-project.png"
+              backgroundImage: `url(${project.image ? project.image : "/default-project.png"
                 })`,
               backgroundSize: "cover",
               backgroundPosition: "center",
